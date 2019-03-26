@@ -1,0 +1,28 @@
+
+KREBS--FORTUNE 500 IT DEPARTMENT
+
+KREBS:	Five 56×56 valued matrices:
+
+BUSINESS_1 non-symmetric, valued.
+BUSINESS_2 non-symmetric, valued.
+ADVICE non-symmetric, valued.
+TECHNICAL non-symmetric, valued.
+CUSTOMER non-symmetric, valued.
+
+BACKGROUND The data were collected by Valdis Krebs in the IT Deapartment of a Fortune 500 company. Fifty-six individuals were surveyed. The first 7 were administrative staff, The next 12 were together in a department. The next 17 were in a second department. And the following 17 were in a third department. Finally, the last 3 were executives.
+
+Each individual reported on five different kinds of links:
+
+1 = With whom do you work with in Business Process 1?
+2 = With whom do you work with in Business Process 2?
+3 = Who do you seek for advice before making a key decision?
+4 = Who do you seek for technical expertise in IT?
+5 = With whom do you discuss customer needs and issues?
+
+And, for each kind of link, each individual reported the frequency of contact with each of the other individuals:
+
+1 = Yearly or less
+2 = Quarterly
+3 = Monthly
+4 = Weekly
+5 = Daily or more
