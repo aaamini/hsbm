@@ -37,7 +37,7 @@ ITRmax <- 2000
 burnin <- ceiling(ITRmax/2)
 Nrep <- 8
 fname <- paste("markov_itr",ITRmax,'_rep',Nrep,'.RData',sep='')
-RE_ESTIMATE <- F
+RE_ESTIMATE <- T
 
 
 run_sims <- function(r) {
