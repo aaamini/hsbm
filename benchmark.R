@@ -23,8 +23,8 @@ methods[["DP-SBM"]] =  function(A) {
    zh = fit_mult_dpsbm(A, gam0=.5, niter=niter, Zcap=10, verb = F)$zb
    get_map_labels(zh, burnin = burnin, consecutive = T)$labels
 }
-methods[["SC"]] = function(A) spec_clust_sliced(A, Ktru, tau = tau)
-methods[["SC-Abar"]] = function(A) spec_clust_avg(A, Ktru, tau = tau)
+methods[["SC-sliced"]] = function(A) spec_clust_sliced(A, Ktru, tau = tau)
+methods[["SC-avg"]] = function(A) spec_clust_avg(A, Ktru, tau = tau)
 
 mtd_names = names(methods)
 
