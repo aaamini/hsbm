@@ -23,6 +23,6 @@ devtools::install_github("aaamini/hsbm", subdir = "hsbm_package")
 Here, `DP-SBM` refers to the algorithm that runs the Dirichlet Process SBM separately on each layer. `SC-sliced` runs the spectral clustering separately on each layer (i.e., slice).  `SC-avg` run the spectral clustering on the average of the adjacency matrices from all layers. 
 
 Changelog:
-- 2/5/2021: The code was rewritten from scratch resulting in a much faster and more stable sampler. The code is optimized to work with sparse networks and runs ~ 100x fast than the old code (now moved to `old_code` folder). The new code is now provided in the R package `hsbm` available under the sub-folder `hsbm-package`. 
+- 2/5/2021: The code was rewritten from scratch resulting in a much faster and more stable sampler. The code is optimized to work with sparse networks and runs ~ 100x fast than the old code (now moved to `old_code` folder). The sampler also mixes fast, on average in about 10-50 iterations. The new code is now provided in the R package `hsbm` available under the sub-folder `hsbm-package`. 
 
 
