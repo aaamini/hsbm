@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/home/arash/R/x86_64-pc-linux-gnu-library/4.0/Rcpp/include",
+                "/usr/include/R",
+                "/home/arash/R/x86_64-pc-linux-gnu-library/4.0/RcppArmadillo/include"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c17",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}

@@ -1,0 +1,46 @@
+Package: hsbm
+Title: Bayesian community detection
+Version: 0.0.0.9000
+Authors@R: 
+    c(
+        person(given = "Arash A.",
+           family = "Amini",
+           role = c("aut","cre"),
+           email = "aaamini@ucla.edu",
+           comment = c(ORCID = "0000-0002-2808-8310")
+        ),
+        person(given = "Marina",
+           family = "Paez",
+           role = c("aut")
+        ),
+        person(given = "Lizhen",
+           family = "Lin",
+           role = c("aut")
+        )
+    )
+Description: Bayesian models for single and multilayer community detection
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Suggests: 
+    testthat,
+    knitr,
+    rmarkdown,
+    igraph,
+    ggplot2,
+    dplyr,
+    tiydr,
+    tibble,
+Depends: 
+    R (>= 2.10)
+Imports: 
+    magrittr,
+    Rcpp,
+    RcppArmadillo,
+    Matrix,
+    RSpectra
+LinkingTo: 
+    Rcpp,
+    RcppArmadillo
