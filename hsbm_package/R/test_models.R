@@ -1,5 +1,8 @@
+# `trans_prob` is the Markov transition probability:
+# 1 corresponds to completely random labels for each layer,
+# 0 corresponds to the same labels for all layers
 #' @export
-sample_personality_net = function(n, nlayers, trans_prob = 1, seed=NULL) {
+sample_personality_net = function(n, nlayers, trans_prob = 1, seed = NULL) {
   if (!is.null(seed)) set.seed(seed)
   Ktru = 3
   eta = matrix(c(0.9, 0.75, 0.5, 0.75, 0.60, 0.25, 0.5, 0.25, 0.10), Ktru, Ktru)

@@ -30,9 +30,9 @@ methods[["SC-avg"]] = function(A) spec_clust_avg(A, Ktru, tau = tau)
 
 mtd_names = names(methods)
 
-res = do.call(rbind, lapply(1:length(methods), function(j) {
+res = do.call(rbind, lapply(seq_along(methods), function(j) {
   dt = as.numeric(system.time( zh <- methods[[j]](A) )["elapsed"])
-  data.frame(method_name = mtd_names[j], 
+  data.frame(method = mtd_names[j], 
              aggregate_nmi = get_agg_nmi(zb, zh), 
              slicewise_nmi = get_slice_nmi(zb, zh) , elapsed_time = dt)
 }))
