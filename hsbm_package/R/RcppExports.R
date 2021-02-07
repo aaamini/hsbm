@@ -52,14 +52,6 @@ sample_index <- function(prob) {
     .Call(`_hsbm_sample_index`, prob)
 }
 
-sample_labels <- function(a, b, zeta, R) {
-    .Call(`_hsbm_sample_labels`, a, b, zeta, R)
-}
-
-sample_labels2 <- function(a, b, zeta, R, xi, OO) {
-    .Call(`_hsbm_sample_labels2`, a, b, zeta, R, xi, OO)
-}
-
 rgamma_vec <- function(shape) {
     .Call(`_hsbm_rgamma_vec`, shape)
 }
@@ -74,14 +66,6 @@ rdirichlet <- function(theta) {
 
 gem_gibbs_update <- function(z, Zcap, concent_param) {
     .Call(`_hsbm_gem_gibbs_update`, z, Zcap, concent_param)
-}
-
-sample_klabels <- function(a, b, zeta, R, xi, OO) {
-    .Call(`_hsbm_sample_klabels`, a, b, zeta, R, xi, OO)
-}
-
-sample_glabels <- function(a, b, zeta, R) {
-    .Call(`_hsbm_sample_glabels`, a, b, zeta, R)
 }
 
 get_up_freq <- function(freq) {

@@ -37,6 +37,13 @@ zb_mat = hsbm::fit_dpsbm(A[[1]])
 zb_mat2 = hsbm::fit_dpsbm(A[[2]])
 lapply(1:niter, function(t) lapply(1:Tn, function(j) zb_mat[,t]))
 
+zb = sample_markov_labels(sample(3, 200, T), 200, 0.2, 3)
+out = sample_personality_net(20, 200, 0.75)
+out = sample_personality_net(20, 200, 0)
+test_markov_labels(out$zb)
+microbenchmark::microbenchmark(zz = sample_markov_labels(sample(3, 200, T), 100, .2, 3))
+
+
 test_that("multiplication works", {
   expect_equal(2 * 2, 4)
 })

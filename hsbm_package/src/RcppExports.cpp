@@ -173,36 +173,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// sample_labels
-int sample_labels(arma::mat a, arma::mat b, arma::uvec zeta, arma::uvec R);
-RcppExport SEXP _hsbm_sample_labels(SEXP aSEXP, SEXP bSEXP, SEXP zetaSEXP, SEXP RSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type a(aSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type b(bSEXP);
-    Rcpp::traits::input_parameter< arma::uvec >::type zeta(zetaSEXP);
-    Rcpp::traits::input_parameter< arma::uvec >::type R(RSEXP);
-    rcpp_result_gen = Rcpp::wrap(sample_labels(a, b, zeta, R));
-    return rcpp_result_gen;
-END_RCPP
-}
-// sample_labels2
-int sample_labels2(arma::mat a, arma::mat b, arma::uvec zeta, arma::uvec R, int xi, int OO);
-RcppExport SEXP _hsbm_sample_labels2(SEXP aSEXP, SEXP bSEXP, SEXP zetaSEXP, SEXP RSEXP, SEXP xiSEXP, SEXP OOSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type a(aSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type b(bSEXP);
-    Rcpp::traits::input_parameter< arma::uvec >::type zeta(zetaSEXP);
-    Rcpp::traits::input_parameter< arma::uvec >::type R(RSEXP);
-    Rcpp::traits::input_parameter< int >::type xi(xiSEXP);
-    Rcpp::traits::input_parameter< int >::type OO(OOSEXP);
-    rcpp_result_gen = Rcpp::wrap(sample_labels2(a, b, zeta, R, xi, OO));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rgamma_vec
 arma::vec rgamma_vec(arma::vec shape);
 RcppExport SEXP _hsbm_rgamma_vec(SEXP shapeSEXP) {
@@ -247,36 +217,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const int >::type Zcap(ZcapSEXP);
     Rcpp::traits::input_parameter< const double >::type concent_param(concent_paramSEXP);
     rcpp_result_gen = Rcpp::wrap(gem_gibbs_update(z, Zcap, concent_param));
-    return rcpp_result_gen;
-END_RCPP
-}
-// sample_klabels
-int sample_klabels(arma::mat a, arma::mat b, arma::vec zeta, arma::uvec R, double xi, int OO);
-RcppExport SEXP _hsbm_sample_klabels(SEXP aSEXP, SEXP bSEXP, SEXP zetaSEXP, SEXP RSEXP, SEXP xiSEXP, SEXP OOSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type a(aSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type b(bSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type zeta(zetaSEXP);
-    Rcpp::traits::input_parameter< arma::uvec >::type R(RSEXP);
-    Rcpp::traits::input_parameter< double >::type xi(xiSEXP);
-    Rcpp::traits::input_parameter< int >::type OO(OOSEXP);
-    rcpp_result_gen = Rcpp::wrap(sample_klabels(a, b, zeta, R, xi, OO));
-    return rcpp_result_gen;
-END_RCPP
-}
-// sample_glabels
-int sample_glabels(arma::mat a, arma::mat b, arma::vec zeta, arma::uvec R);
-RcppExport SEXP _hsbm_sample_glabels(SEXP aSEXP, SEXP bSEXP, SEXP zetaSEXP, SEXP RSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type a(aSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type b(bSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type zeta(zetaSEXP);
-    Rcpp::traits::input_parameter< arma::uvec >::type R(RSEXP);
-    rcpp_result_gen = Rcpp::wrap(sample_glabels(a, b, zeta, R));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -418,14 +358,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_hsbm_safe_exp", (DL_FUNC) &_hsbm_safe_exp, 1},
     {"_hsbm_my_sampler", (DL_FUNC) &_hsbm_my_sampler, 1},
     {"_hsbm_sample_index", (DL_FUNC) &_hsbm_sample_index, 1},
-    {"_hsbm_sample_labels", (DL_FUNC) &_hsbm_sample_labels, 4},
-    {"_hsbm_sample_labels2", (DL_FUNC) &_hsbm_sample_labels2, 6},
     {"_hsbm_rgamma_vec", (DL_FUNC) &_hsbm_rgamma_vec, 1},
     {"_hsbm_rbeta_vec", (DL_FUNC) &_hsbm_rbeta_vec, 2},
     {"_hsbm_rdirichlet", (DL_FUNC) &_hsbm_rdirichlet, 1},
     {"_hsbm_gem_gibbs_update", (DL_FUNC) &_hsbm_gem_gibbs_update, 3},
-    {"_hsbm_sample_klabels", (DL_FUNC) &_hsbm_sample_klabels, 6},
-    {"_hsbm_sample_glabels", (DL_FUNC) &_hsbm_sample_glabels, 4},
     {"_hsbm_get_up_freq", (DL_FUNC) &_hsbm_get_up_freq, 1},
     {"_hsbm_find_tunc", (DL_FUNC) &_hsbm_find_tunc, 2},
     {"_hsbm_fast_agg", (DL_FUNC) &_hsbm_fast_agg, 3},

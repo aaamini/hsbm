@@ -97,29 +97,39 @@ int sample_index(arma::vec prob) {
 }
 
 
-// [[Rcpp::export]]
-int sample_labels(arma::mat a, arma::mat b, arma::uvec zeta, arma::uvec R) {
-  arma::vec temp = a * zeta + b * R; // computes sum_l a_{k l} zeta_l + b_{k l} R_l
-  temp = temp - arma::max(temp)*arma::ones(arma::size(temp));
-  arma::vec prob_vec = exp(temp) + 1e-11;
+// std::vector<arma::uvec> sample_markov_labels(const arma::uvec &zinit, const int nlayers, const int K) {
+//   int n = zinit.n_elem;
+//   std::vector<arma::uvec> z_list(nlayers);
+//   z_list[0] = zinit;
+//   for (int t = 1; t < nlayers; t++) {
+//     for ()
+//     z_list[t]
+//   }
+// }
 
-  return sample_index( prob_vec );
-  //return my_sampler( prob_vec );
-}
+
+// int sample_labels(arma::mat a, arma::mat b, arma::uvec zeta, arma::uvec R) {
+//   arma::vec temp = a * zeta + b * R; // computes sum_l a_{k l} zeta_l + b_{k l} R_l
+//   temp = temp - arma::max(temp)*arma::ones(arma::size(temp));
+//   arma::vec prob_vec = exp(temp) + 1e-11;
+
+//   return sample_index( prob_vec );
+//   //return my_sampler( prob_vec );
+// }
 
 
-// [[Rcpp::export]]
-int sample_labels2(arma::mat a, arma::mat b, 
-                  arma::uvec zeta, arma::uvec R, int xi, int OO) {
-  arma::vec temp = a * zeta + b * R; // computes sum_l a_{k l} zeta_l + b_{k l} R_l
-  arma::vec allones = arma::ones(arma::size(temp));
-  temp += arma::diagvec(a) % (xi*allones) + arma::diagvec(b) % (OO*allones); // compute a_{kk} xi + b_{kk} OO
-  temp = temp - arma::max(temp)*allones;
-  arma::vec prob_vec = exp(temp) + 1e-11;
 
-  return sample_index( prob_vec );
-  //return my_sampler( prob_vec );
-}
+// int sample_labels2(arma::mat a, arma::mat b, 
+//                   arma::uvec zeta, arma::uvec R, int xi, int OO) {
+//   arma::vec temp = a * zeta + b * R; // computes sum_l a_{k l} zeta_l + b_{k l} R_l
+//   arma::vec allones = arma::ones(arma::size(temp));
+//   temp += arma::diagvec(a) % (xi*allones) + arma::diagvec(b) % (OO*allones); // compute a_{kk} xi + b_{kk} OO
+//   temp = temp - arma::max(temp)*allones;
+//   arma::vec prob_vec = exp(temp) + 1e-11;
+
+//   return sample_index( prob_vec );
+//   //return my_sampler( prob_vec );
+// }
 
 // [[Rcpp::export]]
  arma::vec rgamma_vec(arma::vec shape) {
@@ -166,49 +176,23 @@ arma::vec gem_gibbs_update(const arma::uvec z, const int Zcap,
 }
 
 
-// // [[Rcpp::export]]
+
 // int sample_klabels(arma::mat a, arma::mat b, 
 //                   arma::vec zeta, arma::uvec R, double xi, int OO) {
 //  // computes a_{kk} xi + b_{kk} OO + sum_l a_{k l} zeta_l + b_{k l} R_l
-//   arma::vec prob_vec = xi*arma::diagvec(a) + OO*arma::diagvec(b) + a*zeta + b*R; 
-  
-//   prob_vec -= arma::max(prob_vec);  // safe exponential
-//   prob_vec = exp(prob_vec) + 1e-11; // safe exponential
-
+//   arma::vec prob_vec = safe_exp( xi*arma::diagvec(a) + OO*arma::diagvec(b) + a*zeta + b*R );
 //   //return prob_vec;
 //   return sample_index( prob_vec );
 // }
 
 
-// // [[Rcpp::export]]
+
 // int sample_glabels(arma::mat a, arma::mat b, 
 //                     arma::vec zeta, arma::uvec R) {
-//   arma::vec temp = a * zeta + b * R; // computes sum_l a_{k l} zeta_l + b_{k l} R_l
-//   temp = temp - arma::max(temp)*arma::ones(arma::size(temp));
-//   arma::vec prob_vec = exp(temp) + 1e-11;
-
+//   // computes sum_l a_{k l} zeta_l + b_{k l} R_l
+//   arma::vec prob_vec = safe_exp( a * zeta + b * R ); 
 //   return sample_index( prob_vec );
 //   //return my_sampler( prob_vec );
 // }
-
-
-// [[Rcpp::export]]
-int sample_klabels(arma::mat a, arma::mat b, 
-                  arma::vec zeta, arma::uvec R, double xi, int OO) {
- // computes a_{kk} xi + b_{kk} OO + sum_l a_{k l} zeta_l + b_{k l} R_l
-  arma::vec prob_vec = safe_exp( xi*arma::diagvec(a) + OO*arma::diagvec(b) + a*zeta + b*R );
-  //return prob_vec;
-  return sample_index( prob_vec );
-}
-
-
-// [[Rcpp::export]]
-int sample_glabels(arma::mat a, arma::mat b, 
-                    arma::vec zeta, arma::uvec R) {
-  // computes sum_l a_{k l} zeta_l + b_{k l} R_l
-  arma::vec prob_vec = safe_exp( a * zeta + b * R ); 
-  return sample_index( prob_vec );
-  //return my_sampler( prob_vec );
-}
 
 
