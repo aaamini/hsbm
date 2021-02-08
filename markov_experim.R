@@ -25,6 +25,7 @@ methods[["DP-SBM"]] =  function(A, K) {# K is not used
 }
 methods[["SC-sliced"]] = function(A, K) spec_clust_sliced(A, K, tau = tau)
 methods[["SC-avg"]] = function(A, K) spec_clust_avg(A, K, tau = tau)
+methods[["SC-ba"]] = function(A, K) spec_clust_bias_adj(A, K)
 
 mtd_names = names(methods)
 
@@ -36,7 +37,7 @@ runs = expand.grid(
 
 total_time = system.time(
   res <- do.call(rbind, parallel::mclapply(1:nrow(runs), function(j) {
-  # res = do.call(rbind, lapply(1:nrow(runs), function(j) {
+  # res <-  do.call(rbind, lapply(1:nrow(runs), function(j) {
     mi = runs[j, "mtd_idx"]
     trans_prob = runs[j, "trans_prob"]
     out = sample_personality_net(n, nlayers, trans_prob = trans_prob) # , seed=1400) 

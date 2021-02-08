@@ -44,6 +44,14 @@ test_markov_labels(out$zb)
 microbenchmark::microbenchmark(zz = sample_markov_labels(sample(3, 200, T), 100, .2, 3))
 
 
+out = sample_personality_net(n = 200, nlayers = 5, trans_prob = 1, seed=1400)
+Ktru = nrow(out$eta)
+A = out$A
+zb = out$zb
+zh_list = fit_hsbm(A, beta0=0.1, gam0=.5, niter=100, Kcap=10, Gcap=10, seq_g_update = F, verb = F)$zb
+zh = get_map_labels(zh_list, burnin = 50, consecutive = T)$labels
+get_agg_nmi(zb, zh)
+
 test_that("multiplication works", {
   expect_equal(2 * 2, 4)
 })
