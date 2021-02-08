@@ -28,6 +28,7 @@ methods[["DP-SBM"]] =  function(A) {
 methods[["SC-sliced"]] = function(A) spec_clust_sliced(A, Ktru, tau = tau)
 methods[["SC-avg"]] = function(A) spec_clust_avg(A, Ktru, tau = tau)
 methods[["SC-ba"]] = function(A) spec_clust_bias_adj(A, Ktru)
+methods[["SC-omni"]] = function(A) spec_clust_omnibus(A, Ktru)
 
 mtd_names = names(methods)
 

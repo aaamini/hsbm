@@ -52,6 +52,18 @@ zh_list = fit_hsbm(A, beta0=0.1, gam0=.5, niter=100, Kcap=10, Gcap=10, seq_g_upd
 zh = get_map_labels(zh_list, burnin = 50, consecutive = T)$labels
 get_agg_nmi(zb, zh)
 
+zh2 = spec_clust_omnibus(A, 3)
+get_agg_nmi(zb, zh2)
+
+Matrix::image(cbind(A[[1]], A[[2]]))
+nlayers = 5
+Aomni = do.call(rbind, lapply(1:nlayers, function(j)
+   do.call(cbind, lapply(1:nlayers, function(i) (A[[i]] + A[[j]])/2))
+))
+
+Matrix::image(Aomni)
+Matrix::image(A[[5]])
+
 test_that("multiplication works", {
   expect_equal(2 * 2, 4)
 })
