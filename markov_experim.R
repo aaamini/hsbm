@@ -36,8 +36,13 @@ runs = expand.grid(
 )
 
 total_time = system.time(
+<<<<<<< HEAD
   res <- do.call(rbind, parallel::mclapply(1:nrow(runs), function(j) {
   # res <-  do.call(rbind, lapply(1:nrow(runs), function(j) {
+=======
+  # res <- do.call(rbind, parallel::mclapply(1:nrow(runs), function(j) {
+  res <-  do.call(rbind, lapply(1:nrow(runs), function(j) {
+>>>>>>> 98d7184083c63e67469449e870572b56ed3db505
     mi = runs[j, "mtd_idx"]
     trans_prob = runs[j, "trans_prob"]
     out = sample_personality_net(n, nlayers, trans_prob = trans_prob) # , seed=1400) 
@@ -50,8 +55,8 @@ total_time = system.time(
                aggregate_nmi = get_agg_nmi(zb, zh), 
                slicewise_nmi = get_slice_nmi(zb, zh) , 
                elapsed_time = dt, trans_prob = trans_prob)
-  # }))
-  }, mc.cores = ncores))
+  }))
+  # }, mc.cores = ncores))
 )["elapsed"]
 nett::printf("Total simulation time = %3.2f (s)\n" , total_time)
 
