@@ -13,14 +13,22 @@ devtools::install_github("aaamini/hsbm", subdir = "hsbm_package")
 ```
 - Run the `benchmark.R` in the root of the repository. The ouput would be something like this:
 ```
-|method_name | aggregate_nmi| slicewise_nmi| elapsed_time|
-|:-----------|-------------:|-------------:|------------:|
-|HSBM        |        0.9766|        0.9804|        0.477|
-|DP-SBM      |        0.1831|        0.8920|        1.450|
-|SC-sliced   |        0.0315|        0.2006|        0.089|
-|SC-avg      |        0.0018|        0.0049|        0.034|
+|method    | aggregate_nmi| slicewise_nmi| elapsed_time|
+|:---------|-------------:|-------------:|------------:|
+|HSBM      |        0.9766|        0.9804|        0.499|
+|DP-SBM    |        0.1831|        0.8920|        1.450|
+|SC-sliced |        0.0315|        0.2006|        0.087|
+|SC-avg    |        0.0018|        0.0049|        0.038|
+|SC-ba     |        0.0029|        0.0765|        0.094|
+|SC-omni   |        0.0038|        0.0434|        0.193|
 ```
-Here, `DP-SBM` refers to the algorithm that runs the Dirichlet Process SBM separately on each layer. `SC-sliced` runs the spectral clustering separately on each layer (i.e., slice).  `SC-avg` run the spectral clustering on the average of the adjacency matrices from all layers. 
+Besides HSBM, the following methods are implemented:
+
+- `DP-SBM` refers to the algorithm that runs the Dirichlet Process SBM separately on each layer. 
+- `SC-sliced` runs the spectral clustering separately on each layer (i.e., slice).  
+- `SC-avg` run the spectral clustering on the average of the adjacency matrices from all layers. 
+- `SC-bc` is the [biased-adjusted spectral clustering](https://arxiv.org/abs/2003.08222). 
+- `SC-omni` is the spectral clustering based on the [omnibus embedding](https://arxiv.org/abs/1705.09355) (with minor modification).
 
 Changelog:
 - 2/5/2021: The code was rewritten from scratch resulting in a much faster and more stable sampler. The code is optimized to work with sparse networks and runs ~ 100x faster than the old code (now moved to `old_code/` folder). The sampler also mixes fast, on average in about 10 to 50 iterations. The new code is now provided in the R package `hsbm` available under the sub-folder `hsbm-package`. 
