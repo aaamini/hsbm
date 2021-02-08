@@ -2,7 +2,7 @@ library(nett)
 library(hsbm)
 
 ncores = min(parallel::detectCores() - 1, 32) # number of cores to use to parallel
-nreps = 100 # number of replications
+nreps = 1 # number of replications
 ntrans = 8
 seq_g_update = F
 save_data = T
@@ -26,6 +26,7 @@ methods[["DP-SBM"]] =  function(A, K) {# K is not used
 methods[["SC-sliced"]] = function(A, K) spec_clust_sliced(A, K, tau = tau)
 methods[["SC-avg"]] = function(A, K) spec_clust_avg(A, K, tau = tau)
 methods[["SC-ba"]] = function(A, K) spec_clust_bias_adj(A, K)
+methods[["SC-omni"]] = function(A, K) spec_clust_omnibus(A, K)
 
 mtd_names = names(methods)
 
@@ -50,8 +51,8 @@ total_time = system.time(
                aggregate_nmi = get_agg_nmi(zb, zh), 
                slicewise_nmi = get_slice_nmi(zb, zh) , 
                elapsed_time = dt, trans_prob = trans_prob)
-  }))
-  # }, mc.cores = ncores))
+  # }))
+  }, mc.cores = ncores))
 )["elapsed"]
 nett::printf("Total simulation time = %3.2f (s)\n" , total_time)
 
