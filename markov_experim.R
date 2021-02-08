@@ -50,8 +50,8 @@ total_time = system.time(
                aggregate_nmi = get_agg_nmi(zb, zh), 
                slicewise_nmi = get_slice_nmi(zb, zh) , 
                elapsed_time = dt, trans_prob = trans_prob)
-  # }))
-  }, mc.cores = ncores))
+  }))
+  # }, mc.cores = ncores))
 )["elapsed"]
 nett::printf("Total simulation time = %3.2f (s)\n" , total_time)
 
