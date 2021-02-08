@@ -29,14 +29,15 @@ sample_markov_sbm = function(n, nlayers,
                              eta, pri = rep(1, nrow(eta)),
                              trans_prob = 1, seed = NULL){
   if (!is.null(seed)) set.seed(seed)
-  K = nrow(eta)
+  K = length(pri)
+  if (nrow(eta) != K) stop("Dimensions of eta do not match length of pri.")
 
   if (trans_prob == 1) {
     zb = lapply(1:nlayers, function(t) sample(K, n, replace=T, prob=pri))
   } else if (trans_prob == 0) {
     zb = rep(list(sample(K, n, replace=T, prob=pri)), nlayers)
   } else {
-    zinit = sample(Ktru, n, T, prob=pri)
+    zinit = sample(K, n, T, prob=pri)
     zb =  sample_markov_labels(zinit, nlayers, trans_prob, pri)
   }
 
@@ -52,7 +53,7 @@ markovian_label <- function(z, trans_prob, pri) {
   # ntrans = rbinom(1, n, K*trans_prob/(K-1))
   ntrans = rbinom(1, n, trans_prob)
   idx_trans = sample(n, ntrans, F)
-  z[idx_trans] = sample(K, ntrans, T, prob = pri)
+  z[idx_trans] = sample(seq_along(pri), ntrans, T, prob = pri)
   z
 }
 
