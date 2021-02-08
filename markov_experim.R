@@ -2,7 +2,7 @@ library(nett)
 library(hsbm)
 
 ncores = min(parallel::detectCores() - 1, 32) # number of cores to use to parallel
-nreps = 1 # number of replications
+nreps = 100 # number of replications
 ntrans = 8
 seq_g_update = F
 save_data = T
