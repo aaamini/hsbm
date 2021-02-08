@@ -36,13 +36,8 @@ runs = expand.grid(
 )
 
 total_time = system.time(
-<<<<<<< HEAD
   res <- do.call(rbind, parallel::mclapply(1:nrow(runs), function(j) {
   # res <-  do.call(rbind, lapply(1:nrow(runs), function(j) {
-=======
-  # res <- do.call(rbind, parallel::mclapply(1:nrow(runs), function(j) {
-  res <-  do.call(rbind, lapply(1:nrow(runs), function(j) {
->>>>>>> 98d7184083c63e67469449e870572b56ed3db505
     mi = runs[j, "mtd_idx"]
     trans_prob = runs[j, "trans_prob"]
     out = sample_personality_net(n, nlayers, trans_prob = trans_prob) # , seed=1400) 
