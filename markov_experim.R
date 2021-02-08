@@ -2,7 +2,7 @@ library(nett)
 library(hsbm)
 
 ncores = min(parallel::detectCores() - 1, 32) # number of cores to use to parallel
-nreps = 1 # number of replications
+nreps = 100 # number of replications
 ntrans = 8
 seq_g_update = F
 save_data = T
@@ -72,6 +72,7 @@ res %>%
   theme_minimal(base_size = 16) +
   xlab("Transition Probability") +
   ylab("Aggregate NMI") + 
+  ylim(c(0,1)) +
   ggplot2::theme(
     legend.background = ggplot2::element_blank(),
     legend.title = ggplot2::element_blank(),
