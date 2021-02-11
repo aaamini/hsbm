@@ -2,7 +2,7 @@ library(nett)
 library(hsbm)
 
 ncores = min(parallel::detectCores() - 1, 32) # number of cores to use to parallel
-nreps = 100 # number of replications
+nreps = 1 # number of replications
 ntrans = 8
 seq_g_update = F
 save_data = T
@@ -15,7 +15,7 @@ burnin <- ceiling(niter/2)
 tau = 0.0
 methods = list()
 methods[["HSBM"]] = function(A, K) {# K is not used
-  zh = fit_hsbm(A, beta0=0.1, gam0=.5, niter=niter, Kcap=10, Gcap=10, 
+  zh = fit_hsbm(A, beta0=0.1, gam0=.5, niter=niter, Kcap=10, Gcap=10,
                 seq_g_update = seq_g_update, verb = F)$zb
   get_map_labels(zh, burnin = burnin, consecutive = T)$labels
 }
@@ -27,6 +27,8 @@ methods[["SC-sliced"]] = function(A, K) spec_clust_sliced(A, K, tau = tau)
 methods[["SC-avg"]] = function(A, K) spec_clust_avg(A, K, tau = tau)
 methods[["SC-ba"]] = function(A, K) spec_clust_bias_adj(A, K)
 methods[["SC-omni"]] = function(A, K) spec_clust_omnibus(A, K)
+methods[["PisCES"]] = function(A, K) pisces(A, K, shared_kmeans_init = F, verb = F)
+methods[["PisCES-sh"]] = function(A, K) pisces(A, K, shared_kmeans_init = T, verb = F)
 
 mtd_names = names(methods)
 
@@ -36,9 +38,15 @@ runs = expand.grid(
   rep = 1:nreps  
 )
 
+library(doParallel)
+cl <- parallel::makeForkCluster(ncores)
+doParallel::registerDoParallel(cl)
+# doRNG::registerDoRNG(seed)
+
 total_time = system.time(
-  res <- do.call(rbind, parallel::mclapply(1:nrow(runs), function(j) {
-  # res <-  do.call(rbind, lapply(1:nrow(runs), function(j) {
+  #res <- do.call(rbind, parallel::mclapply(1:nrow(runs), function(j) {
+  #res <-  do.call(rbind, lapply(1:nrow(runs), function(j) {
+  res <- do.call(rbind, foreach::foreach(j = 1:nrow(runs)) %dopar% {
     mi = runs[j, "mtd_idx"]
     trans_prob = runs[j, "trans_prob"]
     out = sample_personality_net(n, nlayers, trans_prob = trans_prob) # , seed=1400) 
@@ -51,8 +59,9 @@ total_time = system.time(
                aggregate_nmi = get_agg_nmi(zb, zh), 
                slicewise_nmi = get_slice_nmi(zb, zh) , 
                elapsed_time = dt, trans_prob = trans_prob)
-  # }))
-  }, mc.cores = ncores))
+  })
+  #}))
+  #}, mc.cores = ncores, mc.cleaup = T))
 )["elapsed"]
 nett::printf("Total simulation time = %3.2f (s)\n" , total_time)
 
