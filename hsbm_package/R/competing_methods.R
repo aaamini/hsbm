@@ -46,3 +46,43 @@ spec_clust_omnibus = function(A, K, nstart = 20, niter = 10) {
 # zh = spec_clust_bias_adj(A, 3)
 # get_agg_nmi(zh, zb)
 
+
+# spec_proj = function(A, K, which = "LM", ...) {
+#   # A should a sparse matrix
+#   U = RSpectra::eigs_sym(A, K, which, ...)$vectors
+#   U %*% t(U)
+# }
+
+#' @export 
+pisces = function(A, K, alpha = 0.1, niter = 50, tol = 1e-6, 
+                  verb = T, shared_kmeans_init = F) {
+  nlayers = length(A)
+  V0 = lapply(1:nlayers, function(r) nett::spec_repr(A[[r]], K))
+  U = c(0, lapply(1:nlayers, function(r) V0[[r]] %*% t(V0[[r]])), 0)
+  P = U
+  Unew = vector("list", nlayers+2)
+  V = vector("list", nlayers)
+  for (itr in 1:niter) {
+    for (t in 2:(nlayers+1)) {
+      # Unew[[t]] = spec_proj(P[[t]] + alpha*(U[[t-1]] + U[[t+1]]), K)
+      temp = P[[t]] + alpha*(U[[t-1]] + U[[t+1]])
+      V[[t-1]] = RSpectra::eigs_sym(temp, K, which = "LM")$vectors
+      Unew[[t]] = V[[t-1]] %*% t(V[[t-1]])
+    }
+    Unew[[1]] = Unew[[nlayers+2]] = 0
+    err = max( sapply(2:(nlayers+1), function(t) norm(U[[t]] - Unew[[t]])) )
+    U = Unew
+    if (verb) nett::printf("%3.2e\n", err)
+    if (err < tol) break
+  }
+  if (shared_kmeans_init) {
+    zinit = sample(nrow(A[[1]]), K, F)  
+    zh = lapply(1:nlayers, function(t) kmeans(V[[t]], K, centers = V[[t]][zinit, ], iter.max = 30)$cluster)
+  } else {
+    zh = lapply(1:nlayers, function(t) kmeans(V[[t]], K, nstart = 20)$cluster)
+  }
+  zh
+}
+
+# get_agg_nmi(pisces(A, 3, shared_kmeans_init = F),zb)
+                        
