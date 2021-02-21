@@ -220,6 +220,32 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// nhamming
+double nhamming(const arma::sp_mat& A, int i, int j);
+RcppExport SEXP _hsbm_nhamming(SEXP ASEXP, SEXP iSEXP, SEXP jSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::sp_mat& >::type A(ASEXP);
+    Rcpp::traits::input_parameter< int >::type i(iSEXP);
+    Rcpp::traits::input_parameter< int >::type j(jSEXP);
+    rcpp_result_gen = Rcpp::wrap(nhamming(A, i, j));
+    return rcpp_result_gen;
+END_RCPP
+}
+// get_multi_nhamming
+arma::vec get_multi_nhamming(std::vector<arma::sp_mat> A, arma::umat index_list, const int type);
+RcppExport SEXP _hsbm_get_multi_nhamming(SEXP ASEXP, SEXP index_listSEXP, SEXP typeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<arma::sp_mat> >::type A(ASEXP);
+    Rcpp::traits::input_parameter< arma::umat >::type index_list(index_listSEXP);
+    Rcpp::traits::input_parameter< const int >::type type(typeSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_multi_nhamming(A, index_list, type));
+    return rcpp_result_gen;
+END_RCPP
+}
 // get_up_freq
 arma::uvec get_up_freq(arma::uvec freq);
 RcppExport SEXP _hsbm_get_up_freq(SEXP freqSEXP) {
@@ -362,6 +388,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_hsbm_rbeta_vec", (DL_FUNC) &_hsbm_rbeta_vec, 2},
     {"_hsbm_rdirichlet", (DL_FUNC) &_hsbm_rdirichlet, 1},
     {"_hsbm_gem_gibbs_update", (DL_FUNC) &_hsbm_gem_gibbs_update, 3},
+    {"_hsbm_nhamming", (DL_FUNC) &_hsbm_nhamming, 3},
+    {"_hsbm_get_multi_nhamming", (DL_FUNC) &_hsbm_get_multi_nhamming, 3},
     {"_hsbm_get_up_freq", (DL_FUNC) &_hsbm_get_up_freq, 1},
     {"_hsbm_find_tunc", (DL_FUNC) &_hsbm_find_tunc, 2},
     {"_hsbm_fast_agg", (DL_FUNC) &_hsbm_fast_agg, 3},

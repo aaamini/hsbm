@@ -14,6 +14,51 @@ void print_progress(int itr, int itr_max) {
                             << std::setw(width) << itr_max << ")\r";
 }
 
+//' @export
+// [[Rcpp::export]]
+double nhamming(const arma::sp_mat & A, int i, int j) {
+  
+    arma::sp_mat Aij = arma::join_rows(A.col(i), A.col(j));
+    
+    // arma::sp_mat::const_row_iterator it = A.begin_row();
+    double ham = 0;
+    for (int r = 0; r < A.n_rows; r++) {
+        ham += Aij(r,0) != Aij(r,1);
+    }
+    //for (; it != A.end_row(); it++) {
+    //    Rcout << (*it) << "\n";
+    // }
+    
+    return ham / A.n_cols;
+}
+
+// [[Rcpp::export]]
+arma::vec get_multi_nhamming(std::vector<arma::sp_mat> A, arma::umat index_list, 
+                          const int type = 1) {
+    int m = index_list.n_rows;
+    int nlayers = A.size();
+    arma::vec total_nham(m, arma::fill::zeros);
+    for (int r = 0; r < m; r++) {
+        arma::vec temp(nlayers, arma::fill::zeros);
+        for (int t = 0; t < nlayers; t++) {
+        //  arma::sp_umat At = A[t];
+            temp[t] = nhamming(A[t], index_list(r,0), index_list(r,1));
+            
+         }
+         switch (type) {
+             case 0:
+                total_nham[r] = temp.min();
+                break;
+             case 2:
+                total_nham[r] = temp.max();
+                break;
+             default:
+                total_nham[r] = arma::mean(temp);                
+         }
+         
+    }
+    return total_nham;
+}
 
 // List gem_posterior_counts(arma::uvec z, int K) {
 //     arma::uvec count1(K, arma::fill::zeros);
