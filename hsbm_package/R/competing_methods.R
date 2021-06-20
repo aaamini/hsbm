@@ -1,4 +1,3 @@
-
 #' @export
 spec_clust_sliced = function(A, K, tau = 0.25, ...) {
   lapply(seq_along(A), function(t) nett::spec_clust(A[[t]], K, tau=tau), ...)
@@ -53,8 +52,8 @@ spec_clust_omnibus = function(A, K, nstart = 20, niter = 10) {
 #   U %*% t(U)
 # }
 
-#' @export 
-pisces = function(A, K, alpha = 0.1, niter = 50, tol = 1e-6, 
+#' @export
+pisces = function(A, K, alpha = 0.1, niter = 50, tol = 1e-6,
                   verb = T, shared_kmeans_init = F) {
   nlayers = length(A)
   V0 = lapply(1:nlayers, function(r) nett::spec_repr(A[[r]], K))
@@ -76,7 +75,7 @@ pisces = function(A, K, alpha = 0.1, niter = 50, tol = 1e-6,
     if (err < tol) break
   }
   if (shared_kmeans_init) {
-    zinit = sample(nrow(A[[1]]), K, F)  
+    zinit = sample(nrow(A[[1]]), K, F)
     zh = lapply(1:nlayers, function(t) kmeans(V[[t]], K, centers = V[[t]][zinit, ], iter.max = 30)$cluster)
   } else {
     zh = lapply(1:nlayers, function(t) kmeans(V[[t]], K, nstart = 20)$cluster)
@@ -85,4 +84,4 @@ pisces = function(A, K, alpha = 0.1, niter = 50, tol = 1e-6,
 }
 
 # get_agg_nmi(pisces(A, 3, shared_kmeans_init = F),zb)
-                        
+

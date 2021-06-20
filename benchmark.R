@@ -29,8 +29,8 @@ methods[["SC-sliced"]] = function(A) spec_clust_sliced(A, Ktru, tau = tau)
 methods[["SC-avg"]] = function(A) spec_clust_avg(A, Ktru, tau = tau)
 methods[["SC-ba"]] = function(A) spec_clust_bias_adj(A, Ktru)
 methods[["SC-omni"]] = function(A) spec_clust_omnibus(A, Ktru)
-methods[["PisCES"]] = function(A) pisces(A, Ktru , shared_kmeans_init = F)
-methods[["PisCES-sh"]] = function(A) pisces(A, Ktru , shared_kmeans_init = T)
+methods[["PisCES"]] = function(A) pisces(A, Ktru , verb = F, shared_kmeans_init = F)
+methods[["PisCES-sh"]] = function(A) pisces(A, Ktru , verb = F, shared_kmeans_init = T)
 
 mtd_names = names(methods)
 

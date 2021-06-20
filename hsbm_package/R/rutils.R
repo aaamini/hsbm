@@ -26,6 +26,7 @@ get_slice_nmi <- function (zlist, ylist){
 
 ################### Plot the graphs ########################
 # assuming labels are 1-based and consecutive
+#' @export
 plotG <- function(A, d=NULL, MAX_LABEL=NULL, confidence=NULL,
                   shape_group=NULL, shapes = c("square","circle"), 
                   coord=NULL, deg_func = function(deg) log(deg+3)*3, ...){
@@ -36,6 +37,7 @@ plotG <- function(A, d=NULL, MAX_LABEL=NULL, confidence=NULL,
   if (!is(A, 'igraph')) {
     if (is(A, 'sparseMatrix')) adj = A else adj = Matrix(A)  
     g <- graph_from_adjacency_matrix(adj, mode = "undirected")
+    g = simplify(g)
   } else{
       g <- A # A is in fact g
       adj <- get.adjacency(g)

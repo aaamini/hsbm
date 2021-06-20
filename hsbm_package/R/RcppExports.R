@@ -68,6 +68,15 @@ gem_gibbs_update <- function(z, Zcap, concent_param) {
     .Call(`_hsbm_gem_gibbs_update`, z, Zcap, concent_param)
 }
 
+#' @export
+nhamming <- function(A, i, j) {
+    .Call(`_hsbm_nhamming`, A, i, j)
+}
+
+get_multi_nhamming <- function(A, index_list, type = 1L) {
+    .Call(`_hsbm_get_multi_nhamming`, A, index_list, type)
+}
+
 get_up_freq <- function(freq) {
     .Call(`_hsbm_get_up_freq`, freq)
 }
