@@ -2,11 +2,11 @@ library(nett)
 library(hsbm)
 library(ggplot2)
 library(dplyr)
-library(patchwork)
+# library(patchwork)
 
 
 n = 200 # number of nodes in each layer
-Tn = 3 # number of layers
+Tn = 5 # number of layers
 Ktru = 3
 niter = 300
 
@@ -19,7 +19,7 @@ if (ma_flag) {
   # scale = lambda/nett::get_dcsbm_exav_deg(n, pri, eta)
   # eta = eta * scale
   zb <- lapply(1:Tn, function(t) sample(c(1,2,3), n, replace=T, prob=pri))
-  zb <- lapply(zb, sort)
+  # zb <- lapply(zb, sort)
 } else {
   oir = 0.1
   lambda = 15
@@ -36,7 +36,7 @@ zb_idx = as.vector(do.call(rbind, lapply(1:Tn, function(j) rep(j, n))))
 row_to_list = function(x) lapply(seq_len(nrow(x)), function(i) x[i,])
 
 methods = list()
-methods[["hsbm-par"]] = function(A) {
+methods[["HSBM-par"]] = function(A) {
   zall_h = fit_hsbm(A, 
                                    beta0 = .1, gam0 = .5,
                                    alpha_eta = 1, beta_eta = 5,
@@ -45,7 +45,7 @@ methods[["hsbm-par"]] = function(A) {
   sapply(1:niter, function(t) as.vector(do.call(rbind, zall_h[[t]])))
 }
 
-methods[["hsbm-seq"]] = function(A) {
+methods[["HSBM-seq"]] = function(A) {
   zall_h = fit_hsbm(A, 
                              beta0 = .1, gam0 = .5,
                              alpha_eta = 1, beta_eta = 5,
@@ -72,33 +72,48 @@ res = do.call(rbind, parallel::mclapply(1:nrow(runs), function(j) {
              rep = rep, 
              Kest = sapply(1:niter, function(it) length(unique(z_h[, it])))
   )
-}, mc.cores = 4))
+}, mc.cores = 12))
 
 
 res = res %>% mutate(rep = as.factor(rep)) 
-p1 = res %>% 
+res %>% 
   ggplot(aes(x = iter, y = nmi, color = method, alpha = rep)) + geom_line() +
   theme_minimal(base_size = 12) +
   ggplot2::scale_x_continuous(trans="log10")  +
-  scale_alpha_discrete(range = c(0.1, .9)) +
+  scale_alpha_discrete(range = c(0.1, .9), guide="none") + 
+  ggplot2::theme(
+    legend.background = ggplot2::element_blank(),
+    legend.title = ggplot2::element_blank(),
+    legend.position = c(0.85, 0.2),
+    # legend.text = ggplot2::element_text(size=18),
+  ) + 
+  ggplot2::guides(colour = ggplot2::guide_legend(keywidth = 2, keyheight = 1.25)) +
   ylab("Aggregate NMI") + xlab("Iteration")  
-  
+ggsave("hsbm_paths.pdf", width = 5, height=4)
   
 
-p2 = res %>% mutate(sel_err = abs(Kest-Ktru)) %>% 
+res %>% mutate(sel_err = abs(Kest-Ktru)) %>% 
   group_by(method, iter) %>% 
   summarize(avg_sel_err = mean(sel_err)) %>%  
   ggplot(aes(x = iter, y = avg_sel_err, color = method)) + geom_line() +
   theme_minimal(base_size = 12)+
   ggplot2::scale_x_continuous(trans="log10") +
+  ggplot2::theme(
+    legend.background = ggplot2::element_blank(),
+    legend.title = ggplot2::element_blank(),
+    legend.position = c(0.85, 0.9),
+    # legend.text = ggplot2::element_text(size=18),
+  ) + 
+  ggplot2::guides(colour = ggplot2::guide_legend(keywidth = 2, keyheight = 1.25)) +
   ylab("Average selection error") + xlab("Iteration")
+ggsave("hsbm_selection_pth.pdf", width = 5, height=4)
 
 
-print( knitr::kable(res %>% 
-                      filter(iter == niter | iter==2) %>% 
-                      arrange(iter), digits = 4, format="pipe") )
+# print( knitr::kable(res %>% 
+#                       filter(iter == niter | iter==2) %>% 
+#                       arrange(iter), digits = 4, format="pipe") )
 
-print(p1+p2)
-ggsave("hsbm_stable.png", width = 10, height=4)
+# print(p1+p2)
+# ggsave("hsbm_stable.png", width = 10, height=4)
 
 
