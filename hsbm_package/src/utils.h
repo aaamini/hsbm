@@ -26,5 +26,7 @@ List comp_blk_sums_and_sizes(arma::sp_mat At, arma::uvec z, int Kcap, bool div_d
 
 arma::vec sp_single_col_compress(arma::sp_mat A, int col_idx, arma::uvec z, int Kcap);
 
+arma::mat comp_blk_sums_diff(arma::sp_mat& A, int s, int zs_new, arma::uvec& z, int Kcap);
+
 void print_progress(int itr, int itr_max);                    
 #endif /* __UTILS__ */

@@ -78,35 +78,35 @@ res = do.call(rbind, parallel::mclapply(1:nrow(runs), function(j) {
 res = res %>% mutate(rep = as.factor(rep)) 
 res %>% 
   ggplot(aes(x = iter, y = nmi, color = method, alpha = rep)) + geom_line() +
-  theme_minimal(base_size = 12) +
+  theme_minimal(base_size = 16) +
   ggplot2::scale_x_continuous(trans="log10")  +
   scale_alpha_discrete(range = c(0.1, .9), guide="none") + 
   ggplot2::theme(
     legend.background = ggplot2::element_blank(),
     legend.title = ggplot2::element_blank(),
-    legend.position = c(0.85, 0.2),
+    legend.position = c(0.8, 0.2),
     # legend.text = ggplot2::element_text(size=18),
   ) + 
   ggplot2::guides(colour = ggplot2::guide_legend(keywidth = 2, keyheight = 1.25)) +
   ylab("Aggregate NMI") + xlab("Iteration")  
-ggsave("hsbm_paths.pdf", width = 5, height=4)
+ggsave("hsbm_paths.pdf", width = 6, height=6)
   
 
 res %>% mutate(sel_err = abs(Kest-Ktru)) %>% 
   group_by(method, iter) %>% 
   summarize(avg_sel_err = mean(sel_err)) %>%  
   ggplot(aes(x = iter, y = avg_sel_err, color = method)) + geom_line() +
-  theme_minimal(base_size = 12)+
+  theme_minimal(base_size = 16)+
   ggplot2::scale_x_continuous(trans="log10") +
   ggplot2::theme(
     legend.background = ggplot2::element_blank(),
     legend.title = ggplot2::element_blank(),
-    legend.position = c(0.85, 0.9),
+    legend.position = c(0.8, 0.9),
     # legend.text = ggplot2::element_text(size=18),
   ) + 
   ggplot2::guides(colour = ggplot2::guide_legend(keywidth = 2, keyheight = 1.25)) +
   ylab("Average selection error") + xlab("Iteration")
-ggsave("hsbm_selection_pth.pdf", width = 5, height=4)
+ggsave("hsbm_selection_path.pdf", width = 6, height=6)
 
 
 # print( knitr::kable(res %>% 

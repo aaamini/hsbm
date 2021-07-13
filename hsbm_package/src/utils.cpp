@@ -201,6 +201,64 @@ arma::vec sp_single_col_compress(arma::sp_mat A, int col_idx, arma::uvec z, int 
     return b;
 }
 
+// [[Rcpp::export]]
+arma::mat comp_blk_sums_diff(arma::sp_mat& A, int s, int zs_new, arma::uvec& z, int Kcap) {
+    // This requires fixing since it is assumming the Poi-DCSBM setup 
+
+    int zs = z(s);
+    double Ass =  A(s,s);
+
+    arma::vec U =  sp_single_col_compress(A, s, z, Kcap);
+    U(z(s)) -= Ass;
+
+    arma::vec delta(Kcap, arma::fill::zeros);
+    delta(zs_new)++;
+    delta(zs)--;
+
+    arma::mat D = delta*U.t() + U*delta.t();
+
+    // We can put an if here: if (zs != zs_new) -- not sure if it improves performance
+    D(zs_new, zs_new) += Ass;
+    D(zs, zs) -= Ass;
+
+    return D;
+}
+
+// This is just a test function -- to be removed
+
+
+// arma::vec test_N_update(arma::sp_mat& A, arma::mat N, int s, arma::uvec z, int Kcap, double alpha, double beta) {
+//     arma::vec prob(Kcap, arma::fill::zeros);
+//     arma::mat Np(Kcap, Kcap, arma::fill::zeros);
+
+//     arma::uvec nn = get_freq(z, Kcap);
+    
+//     for (int rp = 0; rp < Kcap; rp++) {
+//         // Rcpp::Rcout << update_blk_sums(At, N, s, rp, z, Kcap);
+//         // Np = update_blk_sums(At, N, s, rp, z, Kcap);
+//         Np = N + comp_blk_sums_diff(A, s, rp, z, Kcap);
+//         prob(rp) = ratio_fun(N.as_col(), Np.as_col(), alpha, beta);
+//         //Rcpp::Rcout << (nn(rp) + 1) / nn(z(s));
+//         prob(rp) *= static_cast<double>((nn(rp) + 1)) / nn(z(s)); 
+//     }
+//     return prob;
+// }
+
+
+
+// arma::vec prod_dist(arma::sp_mat At, arma::mat N, int s, arma::uvec z, int Kcap, double alpha, double beta) {
+//     arma::vec out(Kcap, arma::fill::zeros);
+//     arma::mat Np(Kcap, Kcap, arma::fill::zeros);
+
+    
+//     for (int rp = 0; rp < Kcap; rp++) {
+//         Np = update_blk_sums(At, N, s, rp, z, Kcap);
+//         out(rp) = ratio_fun(N.as_col(), Np.as_col(), alpha, beta);
+//     }
+//     return out;
+// }
+
+
 // TODO: This should be named comp_blk_sums_and_sizes
 // [[Rcpp::export]]
 List comp_blk_sums_and_sizes(arma::sp_mat At, arma::uvec z, int Kcap, bool div_diag = true) {

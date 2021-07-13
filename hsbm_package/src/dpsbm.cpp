@@ -67,6 +67,7 @@ arma::umat fit_dpsbm(arma::sp_mat & A,
 
 }
 
+
 //' @export
 // [[Rcpp::export]]
 List fit_mult_dpsbm(List A, 
